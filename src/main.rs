@@ -11,8 +11,8 @@ fn main() {
     for arg in args.iter() {
         match arg.as_str() {
             "new" => new::run(&args),
-            "push" => {}
-            "config" => {}
+            "push" => push::run(&args),
+            "config" => config::run(&args),
             _ => {
                 show_help();
                 break;
@@ -34,8 +34,12 @@ mod new {
     }
 }
 
-fn push_cmd() {
-    pub fn run(args: &Vec<String>) {}
+mod push {
+    fn push_cmd() {
+        pub fn run(args: &Vec<String>) {}
+    }
 }
 
-fn config_cmd() {}
+mod config {
+    fn config_cmd() {}
+}
