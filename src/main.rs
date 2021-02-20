@@ -1,45 +1,38 @@
+mod cache;
+mod config;
+mod input;
+mod script_builders;
+
 use std::{env, process::Command};
+
+use crate::config::Config;
 
 fn show_help() {
     println!("Plumber - Help");
-    println!("Usage: plumber {{new|push|config}} {{arguments}}");
+    println!("Usage: plumber {{new|push|config|init|help}} {{arguments}}");
+    println!("new - Creates a new app or depot");
+    println!("push - Attempts to deploy to steam using deploy");
 }
+
+const CONFIG_PATH: &'static str = "./plumber.config";
 
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    for arg in args.iter() {
-        match arg.as_str() {
-            "new" => new::run(&args),
-            "push" => push::run(&args),
-            "config" => config::run(&args),
-            _ => {
-                show_help();
-                break;
-            }
-        }
-    }
-}
-
-mod new {
-    fn show_help() {
-        println!("Usage: plumber new {{app|depot}} {{name}}");
+    if args.len() <= 1 {
+        show_help();
+        return;
     }
 
-    pub fn run(args: &Vec<String>) {
-        if args.len() < 2 {
-            show_help();
-            return;
-        }
-    }
-}
+    let config = match config::Config::try_open(CONFIG_PATH) {
+        Some(c) => c,
+        None => config::Config::create_config(CONFIG_PATH),
+    };
 
-mod push {
-    fn push_cmd() {
-        pub fn run(args: &Vec<String>) {}
-    }
-}
+    let command = &args[1];
 
-mod config {
-    fn config_cmd() {}
+    match command.as_str() {
+        "new" => {}
+        _ => show_help(),
+    };
 }
