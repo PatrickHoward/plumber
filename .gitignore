@@ -11,8 +11,7 @@ Cargo.lock
 
 
 # Added by cargo
-
 /target
 
 # Intellij IDEa
-.idea
+/.idea
