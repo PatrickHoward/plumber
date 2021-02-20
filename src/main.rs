@@ -1,5 +1,3 @@
-pub mod cache;
-
 use std::{env, process::Command};
 
 fn show_help() {
