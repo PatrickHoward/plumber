@@ -36,7 +36,7 @@ pub fn query_required(question: &str) -> String {
 pub fn query_valid_path(path_query: &str, is_a_directory: bool) -> String {
     loop {
         let path_string = query_required(path_query);
-        let path = std::path::Path::new(path_string.as_str());
+        let path = std::path::Path::new(path_string.trim());
 
         if is_a_directory {
             if path.is_dir() {
