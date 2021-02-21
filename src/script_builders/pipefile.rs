@@ -12,14 +12,17 @@ const PIPEFILE_PATH_SUFFIX: &'static str = "/PipeFile";
 
 impl PipeFile {
     pub fn new_pipefile(path_str: &str) {
-        let path = std::path::Path::new(stringify!("{}{}", path_str, PIPEFILE_PATH_SUFFIX));
+        let mut pipefile_name = path_str.to_owned();
+        pipefile_name.push_str(PIPEFILE_PATH_SUFFIX);
+
+        let path = std::path::Path::new(pipefile_name.as_str());
 
         if path.exists() {
             eprintln!("PipeFile already exists!");
             return;
         }
 
-        File::create(stringify!("{}{}", path_str, PIPEFULE_PATH_SUFFIX)).unwrap();
+        File::create(pipefile_name).unwrap();
         eprintln!("Initialized new PipeFile");
     }
 }

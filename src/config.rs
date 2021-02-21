@@ -49,7 +49,10 @@ impl Config {
             build_agent_password,
         };
 
-        output_file.write(serde_json::to_string(&config).unwrap().as_bytes());
+        // TODO: Write out to this safely in the future...
+        output_file
+            .write(serde_json::to_string(&config).unwrap().as_bytes())
+            .unwrap();
 
         config
     }
