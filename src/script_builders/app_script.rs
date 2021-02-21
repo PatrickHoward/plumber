@@ -1,11 +1,8 @@
 extern crate serde;
 
-use crate::{
-    script_builders::InteractiveNew,
-    input::query_input_or_default
-};
+use crate::{input::query_input_or_default, script_builders::InteractiveNew};
 
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 pub struct AppScript {
     app_id: String,
@@ -17,7 +14,7 @@ pub struct AppScript {
 }
 
 impl AppScript {
-    pub fn from_dto(dto: AppScriptDto) -> Self {
+    pub fn from_dto(dto: appbuild) -> Self {
         AppScript {
             app_id: dto.AppId,
             desc: dto.Desc,
@@ -41,18 +38,26 @@ impl InteractiveNew for AppScript {
             desc: description,
             build_output,
             content_root,
-            set_live_branch
+            set_live_branch,
         }
     }
 }
 
-// This may be a redundant mapping, but I'll make a dto object for now.
+// This feels like a redunant mapping, but I use a DTO here so that the output matches the
+// app script exactly.
 #[allow(non_snake_case)]
+#[allow(non_camel_case_types)]
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
-pub struct AppScriptDto {
+pub struct appbuild {
     AppId: String,
     Desc: String,
     BuildOutput: String,
     ContentRoot: String,
     SetLive: String,
+}
+
+impl appbuild {
+    pub fn to_string(&self) -> String {
+        vdf_serde::to_string(self).unwrap()
+    }
 }

@@ -5,7 +5,7 @@ mod script_builders;
 
 use std::{env, process::Command};
 
-use crate::config::Config;
+use crate::{config::Config, script_builders::*};
 
 use dirs;
 
@@ -35,7 +35,10 @@ fn main() {
     let command = &args[1];
 
     match command.as_str() {
-        "new" => {}
+        "new" => println!("New!"),
+        "init" => script_builders::pipefile::PipeFile::new_pipefile(
+            env::current_dir().unwrap().to_str().unwrap(),
+        ),
         _ => show_help(),
     };
 }
