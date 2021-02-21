@@ -5,7 +5,7 @@ use std::io::{Read, Write};
 
 use serde::{Deserialize, Serialize};
 
-use crate::input::{query_input_or_default, query_required, query_valid_path};
+use crate::input::{query_required, query_valid_path};
 
 #[derive(Serialize, Deserialize, PartialOrd, PartialEq)]
 pub struct Config {
@@ -15,6 +15,13 @@ pub struct Config {
 }
 
 impl Config {
+    pub fn get_or_create(path: &str) -> Self {
+        match Config::try_open(path) {
+            Some(config) => config,
+            None => Config::create_config(path),
+        }
+    }
+
     pub fn try_open(path: &str) -> Option<Self> {
         if let Ok(mut config_file) = std::fs::File::open(path) {
             let mut contents = String::new();
